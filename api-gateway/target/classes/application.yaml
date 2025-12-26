@@ -5,8 +5,31 @@ spring:
   application:
     name: api-gateway
 
+  main:
+    web-application-type: reactive
+
+  cloud:
+    gateway:
+      routes:
+        - id: account-service
+          uri: lb://ACCOUNT-SERVICE
+          predicates:
+            - Path=/accounts/**
+
+        - id: transaction-service
+          uri: lb://TRANSACTION-SERVICE
+          predicates:
+            - Path=/transactions/**
+
+    loadbalancer:
+      cache:
+        enabled: true
+        caffeine:
+          spec: "maximumSize=500,expireAfterAccess=10m"
+
 eureka:
   client:
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
-
+      defaultZone: http://eureka-server:8761/eureka

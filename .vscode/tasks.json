@@ -1,0 +1,21 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "maven-install",
+			"command": "./mvnw",
+			"args": [
+				"install",
+				"-DskipTests"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/account-service"
+			},
+			"group": "build",
+			"presentation": {
+				"reveal": "silent"
+			}
+		}
+	]
+}
