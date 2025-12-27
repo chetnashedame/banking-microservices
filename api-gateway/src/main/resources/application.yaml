@@ -1,16 +1,12 @@
-server:
-  port: 8080
-
 spring:
-  application:
-    name: api-gateway
-
-  main:
-    web-application-type: reactive
-
   cloud:
     gateway:
       routes:
+        - id: auth-service
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/auth/**
+
         - id: account-service
           uri: lb://ACCOUNT-SERVICE
           predicates:
@@ -20,16 +16,3 @@ spring:
           uri: lb://TRANSACTION-SERVICE
           predicates:
             - Path=/transactions/**
-
-    loadbalancer:
-      cache:
-        enabled: true
-        caffeine:
-          spec: "maximumSize=500,expireAfterAccess=10m"
-
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://eureka-server:8761/eureka

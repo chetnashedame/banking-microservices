@@ -1,3 +1,13 @@
+server:
+  port: 8083
+
 spring:
-  application:
-    name: auth-service
+  cloud:
+    gateway:
+      routes:
+        - id: account-service
+          uri: lb://ACCOUNT-SERVICE
+          predicates:
+            - Path=/accounts/**
+          filters:
+            - JwtAuthenticationFilter
